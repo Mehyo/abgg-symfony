@@ -30,7 +30,7 @@ class Image
 	
     /**
      * @Assert\File(
-     *     maxSize = "1024k",
+     *     maxSize = "256k",
      * )
      */
     public $file;

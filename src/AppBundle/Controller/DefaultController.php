@@ -163,7 +163,11 @@ class DefaultController extends Controller
      */
     public function profilAction(Request $request)
     {
-    	$user=$this->getUser();
+		$user=$this->getUser();
+		if($user==null)
+		{
+			return $this->redirect($this->generateUrl('fos_user_security_login'));
+		}
 	    $response = $this->forward('AppBundle:User:show', array(
 	        'user'  => $user
 	        
@@ -177,7 +181,11 @@ class DefaultController extends Controller
      */
     public function equipeAction(Request $request)
     {
-    	$user=$this->getUser();
+		$user=$this->getUser();
+		if($user==null)
+		{
+			return $this->redirect($this->generateUrl('fos_user_security_login'));
+		}
 	    $response = $this->forward('AppBundle:Team:show', array(
 	        'user'  => $user
 	        
@@ -360,11 +368,11 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/bgfes_authorisation_parentale", name="bgfes_authorisation_parentale")
+     * @Route("/bgfes_autorisation_parentale", name="bgfes_autorisation_parentale")
      */
-	public function bgfesAuthorisationParentaleAction()
+	public function bgfesAutorisationParentaleAction()
 	{
-		$fichier = "bgfes_authorisation_parentale.pdf";
+		$fichier = "bgfes_autorisation_parentale.pdf";
 	    $chemin = "bundles/app/documents/"; // emplacement de votre fichier .pdf
 	         
 	    $response = new Response();
@@ -422,4 +430,12 @@ class DefaultController extends Controller
 	         
 	    return $response;
 	}
+
+    /**
+    * @Route("/mention_legale", name="mention_legale")
+    */
+    public function mentionLegaleAction()
+    {
+      return $this->render('AppBundle:FAQ:mention_legale.html.twig');
+    }
 }

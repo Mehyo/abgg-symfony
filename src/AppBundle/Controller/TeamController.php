@@ -40,12 +40,20 @@ class TeamController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
-        $entities = $em->getRepository('AppBundle:Team')->findAll();
-
-        return array(
-            'entities' => $entities,
-        );
+		$user=$this->getUser();
+		
+		if($user==null)
+		{
+			return $this->redirect($this->generateUrl('fos_user_security_login'));
+		}
+		elseif($user->getTeam()==null)
+		{
+			return $this->redirect($this->generateUrl('team_new'));
+		}
+		elseif($user->getTeam()!=null)
+		{
+			return $this->redirect($this->generateUrl('equipe'));
+		}
     }
     /**
      * Lists all Team entities but only the information avaible to everyone.
@@ -284,9 +292,6 @@ class TeamController extends Controller
 	        $em->persist($entity);
 		    $em->flush();
 			
-	    	$requestURL = $this->getRequest()->getRequestUri();
-			$exploded = explode("/",$requestURL);
-			
 			return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
 		}
      }
@@ -295,7 +300,7 @@ class TeamController extends Controller
     /**
      * Creates a new Experience entity.
      *
-     * @Route("/team", name="team_create")
+     * @Route("/created", name="team_create")
      * @Method("POST")
      * @Template("AppBundle:Team:newTeam.html.twig")
      */
@@ -321,24 +326,26 @@ class TeamController extends Controller
 			$entity->setCaptain($user);
             $user->setTeam($entity);
 			$user->setCapitain($entity);
-            $this->get('fos_user.user_manager')->updateUser($user, false);
 			
             $em = $this->getDoctrine()->getManager();
             $em->persist($entity);
 			
-			$player = $entity->getPlayer();
-			
-			foreach ($player as $players)
+			if($user->getTournament()->getSystName()=='lol')
 			{
-				$players -> setTeam($entity);
-				if ($players->getRole() != null)
+				$players = $entity->getPlayer();
+				foreach ($players as $player)
 				{
-					$players -> getUser()->setRole($players->getRole());
+					$player -> setTeam($entity);
+					if ($player->getRole() != null)
+					{
+						$player -> getUser()->setRole($players>getRole());
+						$em->persist($player);
+					}
 				}
 			}
 
             $application = $data->getApplication();
-            foreach ($application as $appli) {
+            /*foreach ($application as $appli) {
                 $appli->setTeam($entity);
                 $appli->setOrigin("team");
 
@@ -347,15 +354,16 @@ class TeamController extends Controller
                 $mailer = $this->container->get('invitation_services');
                 $mailer->sendInvitation($appli, $user);
 
-            }
+            }*/
 
             $em->persist($entity);
             $em->flush();
+            $this->get('fos_user.user_manager')->updateUser($user, false);
 			
 	    	$game = $this->getUser()->getTournament();
 			$id = $game->getId();
-	        $em = $this->getDoctrine()->getManager();
 	        $gameId = $em->getRepository('AppBundle:Game')->find($id);
+			
 			if ($game -> getSystName() == 'lol')
 			{
 				$url='lol';
@@ -364,7 +372,7 @@ class TeamController extends Controller
 			{
 				$url='csgo';
             }
-            return $this->redirect('search_player',array('game'=>$url));
+            return $this->redirect($this->generateUrl('search_player',array('game'=>$url)));
         }
         elseif ((($data->getName())!=null) 
         && ($data->getCaptain()->getRole()) != null ){
@@ -424,6 +432,7 @@ class TeamController extends Controller
 			}
             return $this->redirect($this->generateUrl('search_player',array('game'=>$url)));
 		}
+        exit;
         return array(
             'entity' => $entity,
             'form'   => $form->createView()
@@ -449,10 +458,10 @@ class TeamController extends Controller
 
 		$game = $query->getResult();
 		$gameName = $game[0]->getName();
-		
+		$user = $this->getUser();
 		$telephone = $this->getUser()->getTelephone();
 		
-        $form = $this->createForm(new TeamType($gameId,$gameName,$telephone), $entity, array(
+        $form = $this->createForm(new TeamType($gameId,$gameName,$telephone,$user), $entity, array(
             'action' => $this->generateUrl('team_create'),
             'method' => 'POST'
         ));

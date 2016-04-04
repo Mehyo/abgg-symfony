@@ -19,29 +19,65 @@
 			<div class="col-md-4">
 				<h4>Joueur Mineur </h4>
 				<br>
-				<a class="btn btn-default" href="{{ path('bgfes_authorisation_parentale') }}">
-					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Authorisation Parentale
+				<a class="btn btn-default" target="_blank" href="{{ asset('bundles/app/documents/bgfes_autorisation_parentale.pdf') }}">
+					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Autorisation Parentale*
 				</a>
+				<br>
+				* L'autorisation parentale est à ramener signée le jour J ou à envoyer par mail scanné à l'adresse <a href="mailto:contact@esport-geek-festival.fr">contact@esport-geek-festival.fr</a>
 			</div>
 			<div class="col-md-8">
 				<h4>Reglements</h4>
 				<br>
-				<a class="btn btn-default" href="{{ path('bgfes_reglement_general') }}">
+				<a class="btn btn-default" target="_blank" href="{{ asset('bundles/app/documents/bgfes_reglement_general.pdf') }}">
 					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Reglement général
 				</a>
 				<br>
-				<a class="btn btn-default" href="{{ path('bgfes_csgo') }}">
+				<a class="btn btn-default" target="_blank" href="{{ asset('bundles/app/documents/bgfes_csgo.pdf') }}">
 					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Reglement Counter Strike : Global Offensive
 				</a>
 				<br>
-				<a class="btn btn-default" href="{{ path('bgfes_lol') }}">
+				<a class="btn btn-default" target="_blank" href="{{ asset('bundles/app/documents/bgfes_lol.pdf') }}">
 					<span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span> Reglement League of Legends
 				</a>
 			</div>
 		</div>
 		<br>
 		<br>
-		<div class="col-md-4">
+		<div class="col-md-3">
+			<hr>
+			<center><h2>Questions relatives au site</h2></center>
+			<hr>
+			<br>
+			<div class="panel-group" id="panel-101">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-101" href="#panel-element-101">
+						Je me suis inscrit sur le site pour le tournoi et quand j'essaye de rejoindre une équipe, je n'ai pas le role Manager de proposé. Est-ce normal?
+					</div>
+					<div id="panel-element-101" class="panel-collapse collapse">
+						<div class="panel-body">
+							Tout à fait. Pour s'inscrire en tant que manager, il fallait l'indiquer en cochant la case "Cochez si vous êtes Manager d'une équipe" 
+							lors de votre inscription sur le site. Si lors de votre inscription, cela n'est pas indiqué, vous pouvez à tout moment 
+							changer afin de devenir Manager. Pour celà, il vous suffit de modifier vos informations Utilisateur 
+							(sur votre profil, sous l'onglet "Infos" sur le bouton "Modifier").
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-102">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-102" href="#panel-element-102">
+						En m'inscrivant au site, je me suis marqué comme Manager alors que je suis joueur. Comment puis-je changer?
+					</div>
+					<div id="panel-element-102" class="panel-collapse collapse">
+						<div class="panel-body">
+							Pour cela, il faut te rendre sur ton profil, cliquer sur le bouton "Modifer" dans la partie "Infos", décocher la case
+							"Cochez si vous êtes Manager d'une équipe" et renseigner sur la page suivante toutes vos informations In-Game
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
 			<hr>
 			<center><h2>Inscription aux tournois </h2></center>
 			<hr>
@@ -51,15 +87,17 @@
 					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-1" href="#panel-element-1">
 						Peut-on s'inscrire sur place ? 
 					</div>
-					<div id="panel-element-1" class="panel-collapse collapse in">
-						<div class="panel-body">Non, toutes les inscriptions se font en ligne avant le 14 mai 2016</div>
+					<div id="panel-element-1" class="panel-collapse collapse">
+						<div class="panel-body">
+							Non, toutes les inscriptions se font en ligne avant le 14 mai 2016. Pour être inscrite, une équipe doit avoir payer en ligne (lien de paiement accessible pour le capitaine d’équipe lorsque l’équipe est complète). 	
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="panel-group" id="panel-2">
 				<div class="panel panel-default">
 					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-2" href="#panel-element-2">
-						 Y'a-t-il des tarifs préférentiels ? 
+						 Y a-t-il des tarifs préférentiels ? 
 					</div>
 					<div id="panel-element-2" class="panel-collapse collapse">
 						<div class="panel-body">
@@ -75,7 +113,9 @@
 					</div>
 					<div id="panel-element-3" class="panel-collapse collapse">
 						<div class="panel-body">
-							Remplir tous les champs du formulaire d'inscription, décharge pour mineur, droit à l'image, pièce d'identité.
+							Tous les champs demandés sur la plateforme devront être remplis avec vos informations personnelles réelles. 
+							Pour les mineurs, une autorisation parentale (disponible dans la documentation) sera à faire signer par le 
+							tuteur légal. Une pièce d’identité sera demandée le jour du tournoi.	
 						</div>
 					</div>
 				</div>
@@ -112,6 +152,8 @@
 					<div id="panel-element-6" class="panel-collapse collapse">
 						<div class="panel-body">
 							Si vous êtes en liste d'attente, soit votre équipe n'a pas encore acheté son slot (votre chef d'équipe doit effectuer le paiement), soit il n'y a plus de place.
+							<br>
+							Dans le premier cas allez sur la plateforme de paiement pour acheter votre slot, dans le second cas vous serez contacté si une place se libère.
 						</div>
 					</div>
 				</div>
@@ -123,13 +165,13 @@
 					</div>
 					<div id="panel-element-7" class="panel-collapse collapse">
 						<div class="panel-body">
-							Vous devez avoir 16 ans ou plus pour participer à l'un des tournois. SI vous êtes mineur, il faudra que vous fournissiez une autorisation parentale.
+							A condition d’avoir fait signer l’autorisation parentale pour participer à l'un des tournois. 
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<hr>
 			<center><h2>Déroulement des tournois </h2></center>
 			<hr>
@@ -141,7 +183,15 @@
 					</div>
 					<div id="panel-element-8" class="panel-collapse collapse">
 						<div class="panel-body">
-							Les phases de qualifications sont le samedi et le dimanche de 10h à 19h.
+							Samedi 14 mai 2016 : 10h à 15h 1ère phase de poules, 4 équipes par jeu seront convoquées
+							<br>
+							Samedi 14 mai 2016 : 15h à 20h 2ème phase de poules, 4 équipes par jeu seront convoquées
+							<br>
+							Dimanche 15 mai 2016 : 10h à 15h 3ème phase de poules, 4 équipes par jeu seront convoquées
+							<br>
+							Dimanche 15 mai 2016 : 15h à 20h 4ème phase de poules, 4 équipes par jeu seront convoquées
+							<br>
+							Lundi 16 mai 2016 : 10h - 19h demi finales et finales
 						</div>
 					</div>
 				</div>
@@ -153,7 +203,7 @@
 					</div>
 					<div id="panel-element-9" class="panel-collapse collapse">
 						<div class="panel-body">
-							Non, il est interdit de manger ou boire à côté des machines.
+							Non, il est STRICTEMENT interdit de manger ou de boire à côté des machines. 
 						</div>
 					</div>
 				</div>
@@ -165,37 +215,41 @@
 					</div>
 					<div id="panel-element-10" class="panel-collapse collapse">
 						<div class="panel-body">
-							Si c'est votre remplaçant oui, sinon c'est interdit.
+							Si la personne est inscrite au tournoi en tant que remplaçant alors oui, sinon c’est interdit.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-11">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-11" href="#panel-element-11">
+						 Que faire de mon matériel si j’arrive avant ma convocation ou souhaite profiter du festival après les qualifications ? 
+					</div>
+					<div id="panel-element-11" class="panel-collapse collapse">
+						<div class="panel-body">
+							Nous avons prévu un espace de stockage fermé dans lequel vous pourrez déposer votre matériel. Une pièce d’identité sera demandé lors du dépôt et de la reprise mais nous n’assurons pas la sécurité du matériel. 
+							<br>
+							Aucun gardiennage n’est prévu de nuit.
+							<br>
+							<a href="#">Consultez le règlement général</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
+		<div class="col-md-3">
 			<hr>
 			<center><h2>Autres questions</h2></center>
 			<hr>
 			<br>
-			<div class="panel-group" id="panel-11">
-				<div class="panel panel-default">
-					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-11" href="#panel-element-11">
-						 Que doit-on amener au BGF ? 
-					</div>
-					<div id="panel-element-11" class="panel-collapse collapse">
-						<div class="panel-body">
-							Décharge mineur, droit à l'image, papiers d'identité, souris + casque + clavier
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="panel-group" id="panel-12">
 				<div class="panel panel-default">
 					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-12" href="#panel-element-12">
-						 Que nous offre le billet du BGF ?
+						 Que doit-on amener au BGF ? 
 					</div>
 					<div id="panel-element-12" class="panel-collapse collapse">
 						<div class="panel-body">
-							Il vous offre un pass 3 jours au BGF
+							Vous devrez fournir une preuve de votre identité, une autorisation parentale, votre ordinateur et vos périphériques de jeux. Attention aucun module de stockage externe ne sera autorisé.
 						</div>
 					</div>
 				</div>
@@ -203,11 +257,28 @@
 			<div class="panel-group" id="panel-13">
 				<div class="panel panel-default">
 					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-13" href="#panel-element-13">
-						 Comment se loger ? 
+						 A quoi me donne droit mon inscription à l’un des tournois ?
 					</div>
 					<div id="panel-element-13" class="panel-collapse collapse">
 						<div class="panel-body">
-							Voir lien hôtels à côté 
+							Les tournois League of Legends et Counter Strike: Global Offensive ont lieu au coeur du Bordeaux Geek Festival. 
+							En étant inscrit au tournoi, vous bénéficiez d’un pass valable pour les trois jours de l’événement. 
+							Si par exemple vous n’êtes pas qualifié le samedi pour le lundi, vous pouvez revenir dimanche et lundi profiter du festival.
+							<br>
+							Une inscription au tournoi vous donne également un accès complet au festival sur toute sa durée (3 jours)
+							ainsi qu'un accès gratuit à la Foire Internationale de Bordeaux.
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="panel-group" id="panel-14">
+				<div class="panel panel-default">
+					<div class="panel-heading" class="panel-title collapsed" data-toggle="collapse" data-parent="#panel-14" href="#panel-element-14">
+						 Comment se loger ? 
+					</div>
+					<div id="panel-element-14" class="panel-collapse collapse">
+						<div class="panel-body">
+							Retrouvez toutes les  <a href="http://geek-festival.fr/infos-pratiques/">informations pratiques du Bordeaux Geek Festival ici. </a>
 						</div>
 					</div>
 				</div>

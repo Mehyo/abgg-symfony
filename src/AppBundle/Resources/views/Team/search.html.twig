@@ -5,9 +5,9 @@
 	
 	    <div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-1">
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-10">
 					<center>
 						<h2>ATTENTION</h2>
 						<p> Votre inscription n'est pas finalisée </p>
@@ -17,7 +17,7 @@
 					    </a>
 					</center>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-1">
 				</div>
 			</div>
 		</div>	
@@ -28,9 +28,9 @@
 	
 	    <div class="container-fluid">
 			<div class="row">
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-1">
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-10">
 					<center>
 						<h2>ATTENTION</h2>
 						<p> Votre inscription n'est pas finalisée </p>
@@ -40,7 +40,7 @@
 					    </a>
 					</center>
 				</div>
-				<div class="col-md-4">
+				<div class="col-md-4 col-xs-1">
 				</div>
 			</div>
 		</div>	
@@ -49,173 +49,182 @@
 			{% form_theme form 'bootstrap_3_layout.html.twig' %}
 			{{ form_start(form) }}
 		    	
-	    	<div class="col-md-2">
-			    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
-			    or (app.request.requestUri == '/abgg-symfony/web/csgo')
-			    or (app.request.requestUri == '/csgo') %}
+	    	<div class="col-md-2 col-xs-5">
+			    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') 
+			    or (app.request.requestUri == '/abgg-symfony/web/team/search/csgo')
+			    or (app.request.requestUri == '/team/search/csgo') %}
 			    	<img width="100%" src="{{ asset('bundles/app/images/bancsgo.png') }}" />
-			    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
-			    or (app.request.requestUri == '/abgg-symfony/web/lol')
-			    or (app.request.requestUri == '/lol') %}
+			    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') 
+			    or (app.request.requestUri == '/abgg-symfony/web/team/search/lol')
+			    or (app.request.requestUri == '/team/search/lol') %}
 			    	<img width="100%" src="{{ asset('bundles/app/images/banlol.png') }}" />
 			    {%endif%}
 	    	</div>
-	    	<div class="col-md-3">
+	    	
+	    	<div class="col-md-3 col-xs-2">
 	    	</div>
 	    	
-	    	<div class="col-md-2" id="search_form">
+	    	<div class="col-md-2 col-xs-4" id="search_form">
 			    	{{ form_label(form.full) }}
 			    	{{ form_errors(form.full) }}
 			    	{{ form_widget(form.full) }}
 					{{ form_end(form) }}
 		    </div>
 			
-	    	<div class="col-md-5">
+	    	<div class="col-md-5 col-xs-1">
 	    	</div>
 		</div>
 			    
 		{%if entities == null%}
-			<br><center><h1>Aucune équipe n'a encore été créée</h1></center>
-			<center><img width="25%"  src="{{ asset('bundles/app/images/forever-alone.jpg') }}" /></center>
+			<br><center><h3>Aucune équipe n'a encore été créée</h3></center>
 		{%else%}
-		<h1>Liste des équipes pour le tournoi 
-		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/csgo') 
-		    or (app.request.requestUri == '/abgg-symfony/web/csgo')
-		    or (app.request.requestUri == '/csgo') %}
-		    	Counter Strike : Global Offensive
-		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/lol') 
-		    or (app.request.requestUri == '/abgg-symfony/web/lol')
-		    or (app.request.requestUri == '/lol') %}
+		
+		<center>
+		<h3>Liste des equipes pour le tournoi 
+		    {%if (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/csgo') 
+		    or (app.request.requestUri == '/abgg-symfony/web/team/search/csgo')
+		    or (app.request.requestUri == '/team/search/csgo') %}
+	    		Counter Strike : Global Offensive
+		    {%elseif (app.request.requestUri == '/abgg-symfony/web/app_dev.php/team/search/lol') 
+		    or (app.request.requestUri == '/abgg-symfony/web/team/search/lol')
+		    or (app.request.requestUri == '/team/search/lol') %}
 		    	League of Legends
-		    {%endif%}</h1>
-			<table  class="table table-hover">
-			  <thead>
-			    <tr>
-			        <th>Equipe</th>
-			        <th>Capitaine d'équipe</th>
-					<th>Joueur 2</th>
-					<th>Joueur 3</th>
-					<th>Joueur 4</th>
-					<th>Joueur 5</th>
-					<th>Joueur 6</th>
-					<th>Joueur 7</th>
-		            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
-		            and app.user.capitain==null
-		            and (countCandidatsService.getPayedTeams()<24)
-		            and (app.request.requestUri==(
-		            	('/abgg-symfony/web/app_dev.php/team/search/'~app.user.tournament.systName)
-		            	or ('/abgg-symfony/web/team/search/'~app.user.tournament.systName)
-		            	or ('/team/search/'~app.user.tournament.systName)
-		            ))%}
-						<th>Postuler</th>
-					{%endif%}
-			    </tr>
-			  </thead>
-			  <tbody>
-			    {% for entity in entities %}
-			    <tr>
-			        <td>
-	                	{%if entity.image%}
-	                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.image.name) }}" />
-	                	{%endif%}
-				        <a class="btn btn-link" href="{{ path('team_show_all', {'id':entity.id} ) }}">
-				      		{{ entity.name }}
-				        </a>
-			        </td>
-			      <td>
-	            	{%if entity.captain.image%}
-	            		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.captain.image.name) }}" />
-	            	{%endif%}
-			      	<a class="btn btn-link" href="{{ path('user_show', {'id':entity.captain.id} ) }}">
-			      		{{ entity.captain }}
-			      	</a>
-			      	{%if entity.captain.tournament.systName == 'lol' %}
-			      		- {{entity.captain.role.name}}
-			      	{%endif%}
-			      </td>
-			      {%if entity.player%}
-			      	{%for player in entity.player%}
-			      		<td>
-		                	{%if player.user.image%}
-		                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
+		    {%endif%}
+		</h3>
+		</center>
+		<br>
+		<div class="container">
+			<div class="table-responsive">
+				<table  class="table table-hover">
+				  <thead>
+				    <tr>
+				        <th>Equipe</th>
+				        <th>Capitaine d'équipe</th>
+						<th>Joueur 2</th>
+						<th>Joueur 3</th>
+						<th>Joueur 4</th>
+						<th>Joueur 5</th>
+						<th>Joueur 6</th>
+						<th>Joueur 7</th>
+			            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
+			            and app.user.capitain==null
+			            and (countCandidatsService.getPayedTeams()<24)
+			            and (app.request.requestUri==(
+			            	('/abgg-symfony/web/app_dev.php/team/search/'~app.user.tournament.systName)
+			            	or ('/abgg-symfony/web/team/search/'~app.user.tournament.systName)
+			            	or ('/team/search/'~app.user.tournament.systName)
+			            ))%}
+							<th>Postuler</th>
+						{%endif%}
+				    </tr>
+				  </thead>
+				  <tbody>
+				    {% for entity in entities %}
+				    <tr>
+				        <td>
+		                	{%if entity.image%}
+		                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.image.name) }}" />
 		                	{%endif%}
-			      			<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
-			      				{{player.user.experience.username}}
-			      			</a>
-					      	{%if player.user.tournament.systName == 'lol' %}
-					      		- {{player.role.name}}
-					      	{%endif%}
-					      	<br>
-			      		</td>
-			      	{%endfor%}
-			      	{%for i in (entity.player|length)..5%}
-			      		<td></td>
-			      	{%endfor%}
-			      {%endif%}
-			      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
-			      and (entity.validation == null) 
-			      and (entity.tournament==app.user.tournament)
-			      and (app.user.capitain == null)
-			      and (countCandidatsService.getPayedTeams(entity.tournament.systName)<16)%}
-				      {% if (app.user.team is null) and (app.user.manager == null) %}
-				      	{%if (entity.tournament.systName=='csgo')%}
-				      		{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)%}
-				      			<td>{{form(checkRoleService.recruitCSGOTeam(entity.id,app.user.id,'player'))}}</td>
-				      		{%else%}
-				      			<td><p>En attente d'une réponse</p></td>
-				      		{%endif%}
-				      	{%elseif ((checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))!=null)
-				      	and (app.user.tournament == entity.tournament) 
-				      	and (app.user.experience !=null)
-				      	and (entity.tournament.systName=='lol')%}
-								{% form_theme checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player') 'bootstrap_3_layout.html.twig' %}
-				      			<td>{{form(checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))}}</td>
-				      	{%elseif (app.user.tournament != entity.tournament)%}
-				      		<td></td>
-				      	{%elseif (app.user.experience == null)%}
-				      		<td>
-					      		<div class="alert alert-warning">
-								  <strong>Warning!</strong> Finissez votre inscription afin de postuler à une équipe
-								</div>
-							</td>
-				      	{%else%}
-				      		<td><p>En attente d'une réponse</p></td>
+					        <a class="btn btn-link" href="{{ path('team_show_all', {'id':entity.id} ) }}">
+					      		{{ entity.name }}
+					        </a>
+				        </td>
+				      <td>
+		            	{%if entity.captain.image%}
+		            		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.captain.image.name) }}" />
+		            	{%endif%}
+				      	<a class="btn btn-link" href="{{ path('user_show', {'id':entity.captain.id} ) }}">
+				      		{{ entity.captain }}
+				      	</a>
+				      	{%if entity.captain.tournament.systName == 'lol' %}
+				      		- {{entity.captain.role.name}}
 				      	{%endif%}
-				      {%elseif (app.user.manager)%}
-				      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
-				      		{%if (entity.tournament.systName=='csgo')%}
-						      	{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)
-						      	and (app.user.team==null)%}
-					      			<td>
-					      				<a class="btn btn-default" href="{{ path('user_recruit', {'teamId':entity.id,'userId':app.user.id, 'origin':'player'}) }}">Postuler</a>
-					      			</td>
+				      </td>
+				      {%if entity.player%}
+				      	{%for player in entity.player%}
+				      		<td>
+			                	{%if player.user.image%}
+			                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
+			                	{%endif%}
+				      			<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
+				      				{{player.user.experience.username}}
+				      			</a>
+						      	{%if player.user.tournament.systName == 'lol' %}
+						      		- {{player.role.name}}
+						      	{%endif%}
+						      	<br>
+				      		</td>
+				      	{%endfor%}
+				      	{%for i in (entity.player|length)..5%}
+				      		<td></td>
+				      	{%endfor%}
+				      {%endif%}
+				      {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
+				      and (entity.validation == null) 
+				      and (entity.tournament==app.user.tournament)
+				      and (app.user.capitain == null)
+				      and (countCandidatsService.getPayedTeams(entity.tournament.systName)<16)%}
+					      {% if (app.user.team is null) and (app.user.manager == null) %}
+					      	  {%if (entity.tournament.systName=='csgo')%}
+					      		{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)%}
+					      			<td>{{form(checkRoleService.recruitCSGOTeam(entity.id,app.user.id,'player'))}}</td>
 					      		{%else%}
 					      			<td><p>En attente d'une réponse</p></td>
 					      		{%endif%}
-				      		{%elseif (entity.tournament.systName=='lol')%}
-						      	{%if (checkRoleService.getManagerAvailable(entity.id, app.user.id)) == false%}
-							      	<td>
-							      		En attente d'une réponse
-							      	</td>
+						      	{%elseif ((checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))!=null)
+						      	and (app.user.tournament == entity.tournament) 
+						      	and (app.user.experience !=null)
+						      	and (entity.tournament.systName=='lol')%}
+										{% form_theme checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player') 'bootstrap_3_layout.html.twig' %}
+						      			<td>{{form(checkRoleService.getRoleAvailable(entity.id, app.user.id, 'player'))}}</td>
+						      	{%elseif (app.user.tournament != entity.tournament)%}
+						      		<td></td>
+						      	{%elseif (app.user.experience == null)%}
+						      		<td>
+							      		<div class="alert alert-warning">
+										  <strong>Warning!</strong> Finissez votre inscription afin de postuler à une équipe
+										</div>
+									</td>
 						      	{%else%}
-						      		<td>{{form(checkRoleService.getManagerAvailable(entity.id, app.user.id))}}</td>
+						      		<td><p>En attente d'une réponse</p></td>
 						      	{%endif%}
-						    {%endif%}
-					     {%endif%}
-				      {%else%}
-				      	<td></td>
-				      {%endif%}
-				      	<td></td>
-				  {%elseif is_granted("IS_AUTHENTICATED_REMEMBERED") 
-			      and (entity.validation != null) 
-			      and (entity.tournament==app.user.tournament)
-			      and (app.user.capitain == null)%}
-				  	  <td></td> 
-				  {%endif%}
-			    </tr>
-			    {% endfor %}
-			  </tbody>
-			</table>
+					      {%elseif (app.user.manager)%}
+						      	{%if (app.user.tournament == entity.tournament) and (app.user.experience !=null)%}
+						      		{%if (entity.tournament.systName=='csgo')%}
+								      	{%if (checkRoleService.checkApplication(entity.id,app.user.id,'player')==false)
+								      	and (app.user.team==null)%}
+							      			<td>
+							      				<a class="btn btn-default" href="{{ path('user_recruit', {'teamId':entity.id,'userId':app.user.id, 'origin':'player'}) }}">Postuler</a>
+							      			</td>
+							      		{%else%}
+							      			<td><p>En attente d'une réponse</p></td>
+							      		{%endif%}
+						      		{%elseif (entity.tournament.systName=='lol')%}
+								      	{%if (checkRoleService.getManagerAvailable(entity.id, app.user.id)) == false%}
+									      	<td>
+									      		En attente d'une réponse
+									      	</td>
+								      	{%else%}
+								      		<td>{{form(checkRoleService.getManagerAvailable(entity.id, app.user.id))}}</td>
+								      	{%endif%}
+								    {%endif%}
+							     {%endif%}
+					      {%else%}
+					      	<td></td>
+					      {%endif%}
+					      	<td></td>
+					  {%elseif is_granted("IS_AUTHENTICATED_REMEMBERED") 
+				      and (entity.validation != null) 
+				      and (entity.tournament==app.user.tournament)
+				      and (app.user.capitain == null)%}
+					  	  <td></td> 
+					  {%endif%}
+				    </tr>
+				    {% endfor %}
+				  </tbody>
+				</table>
+			  </div>
+		    </div>
 		{%endif%}
 		</div>	
 	{%endif%}

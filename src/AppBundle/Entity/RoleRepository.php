@@ -23,4 +23,13 @@ class RoleRepository extends EntityRepository
 
         return $query;
     }
+	
+	public function getManager ()
+    {
+		$query = $this->createQueryBuilder('p')
+		    ->where('p.name = :manager')
+		    ->setParameter('manager', 'Manager');
+			
+        return $query;
+    }
 }

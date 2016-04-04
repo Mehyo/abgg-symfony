@@ -58,23 +58,41 @@ class CaptainType extends AbstractType
 				->add('role','entity', array(
 						'required' => true,
 					    'class' => 'AppBundle:Role',
-					    'query_builder' => function (RoleRepository $er) use ($gameId)
-					    {
-					        return $er->getGameId($gameId);
-					    },
+						'choices'=> $rolesAvailable,
 					    'choice_label' => 'name',
 					));
 			}
 			else 
 			{
-				$builder
-				->add('telephone', 'hidden',array('data'=> $telephone))
-				->add('role','entity', array(
-						'required' => true,
-					    'class' => 'AppBundle:Role',
-					    'choices'=> $rolesAvailable,
-					    'choice_label' => 'name',
-					));
+				if ($captain->getManager()!=1)
+				{
+					
+					$builder
+					->add('telephone', 'hidden',array('data'=> $telephone))
+					->add('role','entity', array(
+							'required' => true,
+						    'class' => 'AppBundle:Role',
+						    'query_builder' => function (RoleRepository $er) use ($gameId)
+						    {
+						        return $er->getGameId($gameId);
+						    },
+						    'choice_label' => 'name',
+						));
+				}
+				else {
+					
+					$builder
+					->add('telephone', 'hidden',array('data'=> $telephone))
+					->add('role','entity', array(
+							'required' => true,
+						    'class' => 'AppBundle:Role',
+						    'query_builder' => function (RoleRepository $er)
+						    {
+						        return $er->getManager();
+						    },
+						    'choice_label' => 'name',
+						));
+				}
 			}
 		}
     }

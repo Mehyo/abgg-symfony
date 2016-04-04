@@ -2,7 +2,7 @@
 
 {% block body -%}
 	<div class="row">
-	    <div class="col-xs-3">
+	    <div class="col-sm-3 col-xs-6">
 	  		{%if team.image%}
 	  			<center>
 	  				<img width="50%" src="{{ asset('uploads/images/'~team.image.name) }}" />
@@ -29,7 +29,7 @@
 		    <br>
 	  		{%endif%}	  	
 	    </div>
-	    <div class="col-xs-3">
+	    <div class="col-sm-3 col-xs-6">
 		    {%if app.user.team.validation == null and app.user.capitain%}
 			    <a class="btn btn-default" href="{{ path('edit_capitain_before_delete', {'id':app.user.team.id} ) }}">
 			        Supprimer équipe <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
@@ -44,9 +44,9 @@
 			{%endif%}
 			</h2>
 	    </div>
-	    <div class="col-xs-3">
+	    <div class="col-sm-3 col-xs-3">
 	    </div>
-	    <div class="col-xs-2">
+	    <div class="col-sm-3 col-xs-6">
 	    	{%if app.user.capitain %}
 			    <a href="{{ path('team_edit_capitain',  {'id': app.user.team.id}) }}">
 		    		<h2>Capitaine d'équipe</h2>
@@ -78,11 +78,11 @@
 	    		Info!
 	    	</strong> 
 	    	Vous avez désormais suffisement de joueurs afin de valider votre équipe. <br>
-	    	SEUL UNE EQUIPE VALIDEE POURRA ETRE INSCRITE
+	    	SEUL UNE EQUIPE PAYEE POURRA ETRE INSCRITE
 	    	<br>
 	    	<br>
     		<a class="btn btn-default" href="{{ path('validate_team', {'team':team.id} ) }}">
-	    		Valider l'équipe
+	    		Payer l'équipe
 	    	</a>
 		</div>
 	{%endif%}
@@ -111,7 +111,9 @@
         		<img height="100px"  width="100px" src="{{ asset('uploads/images/'~team.captain.image.name) }}" />
         	{%endif%}
 	    </div>
-	    <div class="col-xs-8" id="player-show">
+	    <div class="col-xs-1">
+	    </div>
+	    <div class="col-xs-7" id="player-show">
 		    <div class="col-xs-3">
 				<a class="btn btn-link" href="{{ path('user_show', {'id':team.captain.id} ) }}">
 	        		{{ team.captain.username }}

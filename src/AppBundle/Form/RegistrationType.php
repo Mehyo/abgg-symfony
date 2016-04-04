@@ -29,15 +29,26 @@ class RegistrationType extends AbstractType
 				'label'=> 'Date de Naissance',
 			    'input'  => 'datetime',
 			    'widget' => 'choice',
-			    'years' => range(1900,1999)
+			    'years' => range(1900,2001)
 			))
 			->add('manager','checkbox',array(
 				'label'=> 'Cochez si vous êtes Manager d\'une équipe',
 				'required' =>false
 				))
+			->add('reglement','checkbox',array(
+				'label'=> 'J\'ai bien lu et j\'accepte le règlement général du BGF eSport',
+				'required' =>true
+				))
+			
 			//->add('image', new ImageType(), array(
 			//	'required'=>false))
         ;
+		if($options['method']=='PUT')
+		{
+			$oldManager=$options['data']->getManager();
+			$builder
+				->add('oldManager','hidden', array('data'=> $oldManager));
+		}
     }
 
     /**

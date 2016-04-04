@@ -32,6 +32,15 @@ class CheckRoleTeamApplication
 		)->setParameter('id', $teamId);
 		$roles = $query->getResult();
 		
+		if($origin=='player')
+		{
+			$label='Postuler';
+		}
+		elseif($origin=='team')
+		{
+			$label='Recruter';
+		}
+		
 		if($origin!=null)
 		{
 			$origin = ' and a.origin = \''.$origin.'\'';
@@ -73,15 +82,15 @@ class CheckRoleTeamApplication
 				$i++;
 			}
 			
-			if($roles[0]->getGame())
-			{
-				$gameId=$roles[0]->getGame()->getId();
-				$game='r.game='.$gameId.$phrase.' or ';
-			}
-			else
-			{
-				$game='';
-			}
+	        $query = $this->em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t 
+			    where t.id='.$teamId
+			);
+			$teams = $query->getResult();
+			$team=$teams[0];
+			$gameId=$team->getTournament()->getId();
+			$game='r.game='.$gameId.$phrase.' or ';
 			
 	        $query = $this->em->createQuery(
 			    'SELECT r
@@ -101,7 +110,6 @@ class CheckRoleTeamApplication
 				$choice[$poste->getId()]=$poste->getName();
 			}
 			
-
 		    $formBuilder = $this->container->get('form.factory')->createBuilder()
 				->add('role','choice', array(
 					'label'    => 'Postes disponibles',
@@ -111,10 +119,10 @@ class CheckRoleTeamApplication
 		            'required' => false,
 					))
 				->add('text','text', array(
-					'label'=>'Laisser un commentaire au chef d\'équipe',
+					'label'=>'Laisser un commentaire',
 		            'required' => false))
 				->add('teamId','hidden', array('data'=> $teamId))
-	            ->add('save', 'submit', array('label' => 'Recruter'));
+	            ->add('save', 'submit', array('label' => $label));
 				
 			if($userId != null)
 			{
@@ -153,27 +161,27 @@ class CheckRoleTeamApplication
 
 	public function getManagerAvailable($teamId, $userId)
 	{
-        $query = $this->em->createQuery(
-		    'SELECT u
-		    FROM AppBundle:User u
-		    INNER JOIN AppBundle:Role r
-		    WITH u.role=r.id
-		    WHERE u.team = :id
-		    and u.manager = 1'
-		)->setParameter('id', $teamId);
-		$roles = $query->getResult();
+		$query = $this->em->createQuery(
+		    'SELECT p
+		    FROM AppBundle:Player p
+		    inner join AppBundle:Role r
+		    with r.id=p.role
+		    WHERE p.team = '.$teamId.'
+		     and r.name=\'Manager\''
+		);
+		$check = $query->getResult();
 		
         $query = $this->em->createQuery(
 		    'SELECT p
 		    FROM AppBundle:Application p 
 		    WHERE p.user = '.$userId.
 		    ' and p.team = '.$teamId.
-		    ' and p.origin = \'team\''
+		    ' and p.origin = \'player\''
 		);
 		$application = $query->getResult();
 		
 		
-		if (empty($roles) && empty($application))
+		if (empty($check) && empty($application))
 		{
 	        $query = $this->em->createQuery(
 			    'SELECT r
@@ -190,8 +198,11 @@ class CheckRoleTeamApplication
 		            'multiple' => true,
 		            'required' => false,
 					))
+				->add('text','text', array(
+					'label'=>'Laisser un commentaire au chef d\'équipe',
+					'required' => false,))
 				->add('teamId','hidden', array('data'=> $teamId))
-	            ->add('save', 'submit', array('label' => 'Recruter'));
+	            ->add('save', 'submit', array('label' => 'Postuler'));
 		
 			if($userId != null)
 			{

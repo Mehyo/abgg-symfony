@@ -137,9 +137,10 @@ class UserController extends Controller
     {
     	$requestURL = $this->getRequest()->getRequestUri();
 		$exploded = explode("/",$requestURL);
-		$games = $exploded[6];
 		
-		$function='createForm'.$exploded[6];
+		$length =count($exploded);
+		
+		$function='createForm'.$exploded[$length-1];
 		$formArray = $this->get('searchFormService')->$function();
 		
 	    $formBuilder = $this->createFormBuilder($formArray);
@@ -152,7 +153,7 @@ class UserController extends Controller
         $form->handleRequest($request);
 
         if ($form->isValid()) {
-
+			$games=$exploded[$length-1];
 			$tradDataSearch = $this->get('traductionDataSearchService')->getTraductionData($form,$games);
 			
 			if($tradDataSearch=='error')
@@ -228,8 +229,8 @@ class UserController extends Controller
 			
 	    	$requestURL = $this->getRequest()->getRequestUri();
 			$exploded = explode("/",$requestURL);
-			
-			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[6] )));
+			$length =count($exploded);
+			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[$length-1] )));
 		}
 		elseif(array_key_exists('text', $forms))
 		{
@@ -264,8 +265,9 @@ class UserController extends Controller
 			
 	    	$requestURL = $this->getRequest()->getRequestUri();
 			$exploded = explode("/",$requestURL);
+			$length =count($exploded);
 			
-			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[6] )));
+			return $this->redirect($this->generateUrl('search_player', array('game'=> $exploded[$length-1] )));
 		}
 
         return array(
@@ -448,31 +450,103 @@ class UserController extends Controller
 
         if ($editForm->isValid()) {
             $user = $this->getUser();
+            $em = $this->getDoctrine()->getManager();
+			$oldManager=$user->getOldManager();
+			$oldMana = settype($oldManager,'boolean');
 			
-			if($user->getManager()!=null)
+			if($user->getManager()!=false or $user->getManager()!=null)
 			{
-				$firstExperience = $user->getExperience();
-				$em->remove($firstExperience);
-				$experience = new Experience;
-				$user->setExperience($experience);
-				$user->getExperience()->setUsername($user->getUsername());
+				if($user->getManager()!=$oldManager)
+				{
+					$firstExperience = $user->getExperience();
+					$em->remove($firstExperience);
+					$experience = new Experience;
+					$user->setExperience($experience);
+					$user->getExperience()->setUsername($user->getUsername());
+					$em->persist($experience);
+					
+			        $query = $em->createQuery(
+					    'SELECT a
+					    FROM AppBundle:Application a
+					    inner join AppBundle:Role r
+					    with r.id=a.role
+					    WHERE r.name != \'Manager\''
+					);
+					$applications = $query->getResult();
+					
+					foreach ($applications as $application)
+					{
+						$application->setBlocked(true);
+						$em->persist($application);
+					}
+					
+			        $query = $em->createQuery(
+					    'SELECT a
+					    FROM AppBundle:Application a
+					    inner join AppBundle:Role r
+					    with r.id=a.role
+					    WHERE r.name = \'Manager\''
+					);
+					$applicationsMan = $query->getResult();
+					
+					foreach ($applicationsMan as $applicationMan)
+					{
+						$applicationMan->setBlocked(null);
+						$em->persist($applicationMan);
+					}
+					$em->flush();
+				}
 	        	$this->get('fos_user.user_manager')->updateUser($user, false);
-            	$em->persist($experience);
-			}
-			elseif($user->getManager()==null)
-			{
 				
-	        	$this->get('fos_user.user_manager')->updateUser($user, false);
-	            $em = $this->getDoctrine()->getManager();
+			}
+			elseif($user->getManager()==false or $user->getManager()!=null)
+			{				
+				if($user->getManager()!=$oldManager)
+				{
+					$oldExperience= $user->getExperience();
+					$user->setExperience(null);
+					$em->remove($oldExperience);
+		        	$this->get('fos_user.user_manager')->updateUser($user, false);
+		            $em = $this->getDoctrine()->getManager();
+					$firstExperience = $user->getExperience();
+			        $query = $em->createQuery(
+					    'SELECT a
+					    FROM AppBundle:Application a
+					    inner join AppBundle:Role r
+					    with r.id=a.role
+					    WHERE r.name != \'Manager\''
+					);
+					$applications = $query->getResult();
+					
+					foreach ($applications as $application)
+					{
+						$application->setBlocked(null);
+						$em->persist($application);
+					}
+					
+			        $query = $em->createQuery(
+					    'SELECT a
+					    FROM AppBundle:Application a
+					    inner join AppBundle:Role r
+					    with r.id=a.role
+					    WHERE r.name = \'Manager\''
+					);
+					$applications = $query->getResult();
+					
+					foreach ($applications as $application)
+					{
+						$application->setBlocked(true);
+						$em->persist($application);
+					}
+				}
+				
 	            $em->persist($user);
 	            $em->flush();
 				return $this->forward('AppBundle:Experience:newUser');
 			}
 			
-            $em = $this->getDoctrine()->getManager();
             $em->persist($user);
             $em->flush();
-
             
 			return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
         }
@@ -641,7 +715,7 @@ class UserController extends Controller
 		}
 		
         $em->flush();
-		return $this->redirect($this->generateUrl('player_show', array('id' => $this->getUser()->getId())));
+		return $this->redirect($this->generateUrl('equipe'));
     }
 	
     /**

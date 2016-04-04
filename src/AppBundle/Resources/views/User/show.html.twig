@@ -79,10 +79,12 @@
 				                <th>Prénom</th>
 				                <td>{{ user.lastName }}</td>
 				            </tr>
-				            <tr>
-				                <th>Email</th>
-				                <td>{{ user.email }}</td>
-				            </tr>
+				            {%if (is_granted("IS_AUTHENTICATED_REMEMBERED"))%}
+					            <tr>
+					                <th>Email</th>
+					                <td>{{ user.email }}</td>
+					            </tr>
+					        {%endif%}
 				            <tr>
 				                <th>Date de Naissance</th>
 				                <td>{{ user.birth|date('Y-m-d') }}</td>

@@ -16,12 +16,14 @@ class TeamType extends AbstractType
 	protected $gameId;
 	protected $game;
 	protected $telephone;
+	protected $user;
 
-	public function __construct ($gameId,$game,$telephone)
+	public function __construct ($gameId,$game,$telephone,$user)
 	{
 	    $this->gameId = $gameId;
 	    $this->game = $game;
 	    $this->telephone = $telephone;
+		$this->user = $user;
 	}
     /**
      * @param FormBuilderInterface $builder
@@ -32,14 +34,15 @@ class TeamType extends AbstractType
 		$gameId=$this->gameId;
 		$game=$this->game;
 		$telephone=$this->telephone;
+		$captain=$this->user;
 		
         $builder
-        ->add('name');
+        ->add('name','text',array('label' => 'Nom d\'équipe'));
 		
 		if ($game == 'League of Legends')
 		{
 			$builder
-			->add('captain', new CaptainType($gameId,$game,$telephone));
+			->add('captain', new CaptainType($gameId,$game,$telephone,$captain),array('label' => 'Chef d\'équipe'));
 		}
 		
 		$builder

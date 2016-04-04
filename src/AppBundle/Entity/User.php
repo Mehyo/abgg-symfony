@@ -135,6 +135,14 @@ class User extends BaseUser
      * })
      */
     private $image;
+    private $oldManager;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="reglement", type="boolean", nullable=false)
+     */
+    private $reglement;
 
     public function __construct()
     {
@@ -415,5 +423,39 @@ class User extends BaseUser
     public function getImage()
     {
         return $this->image;
+    }
+
+    public function setOldManager($oldManager)
+    {
+        $this->oldManager = $oldManager;
+
+        return $this;
+    }
+    public function getOldManager()
+    {
+        return $this->oldManager;
+    }
+
+
+    /**
+     * Set reglement
+     *
+     * @param boolean $reglement
+     * @return User
+     */
+    public function setReglement($reglement)
+    {
+        $this->reglement = $reglement;
+
+        return $this;
+    }
+    /**
+     * Get manager
+     *
+     * @return boolean
+     */
+    public function getReglement()
+    {
+        return $this->reglement;
     }
 }
