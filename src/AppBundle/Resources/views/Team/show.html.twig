@@ -81,25 +81,26 @@
 	    	SEUL UNE EQUIPE PAYEE POURRA ETRE INSCRITE
 	    	<br>
 	    	<br>
-    		<a class="btn btn-default" href="{{ path('validate_team', {'team':team.id} ) }}">
-	    		Payer l'équipe
-	    	</a>
+	    	{%if team.validation==null %}
+	    		<a class="btn btn-default" href="{{ path('validate_team', {'team':team.id} ) }}">
+		    		VALIDEZ VOTRE EQUIPE
+		    	</a>
+		    	<p>
+		    		Validez votre équipe pour vous pré-inscrire au tournoi. Une fois l'équipe validée, vous aurez accès à la plateforme de paiement.
+		    	</p>
+		    {%elseif team.validation.payed == null%}
+	    		<a class="btn btn-default" href="http://esport2016.festik.net" target="_blank" >
+		    		PAYER
+		    	</a>
+		    	<p>
+		    		 Le paiement pour votre équipe vous permet d'inscrire définitivement votre équipe au tournoi. Après règlement, nous prendrons contact avec vous pour confirmer votre inscription.
+		    	</p>
+		    	<br>
+		    	<p>
+		    		Pour toute question, n'hésitez pas à nous contacter via le <a href="{{ path('mail') }}" >formulaire de contact</a>.
+		    	</p>
+		    {%endif%}
 		</div>
-	{%endif%}
-	
-	{%if team.validation != null%}
-		<div class="alert alert-info">
-		    <strong> 
-	    		<span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
-	    		Info
-	    	</strong> 
-	    	Votre équipe est validée. Si vous désirez procéder à des modifications d'équipe, contactez les admins<br>
-	    	{%if team.validation.payed==null%}
-	    		Votre équipe doit payer ICI
-	    	{%else%}
-	    		Votre équipe a été considérée comme ayant payé.
-	    	{%endif%}
-	    </div>
 	{%endif%}
 
 	<br>

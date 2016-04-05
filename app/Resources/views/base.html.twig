@@ -10,7 +10,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A REMPLIR">
-    <meta name="author" content="">
+    <meta name="author" content="Tournois de League of Legends et Counter Strike: Global Offensive - Bordeaux Geek Festival 2016 - Plateforme de création et inscription des équipes">
     <meta property="og:image" content="{{ asset('bundles/app/images/logo.jpg') }}" />
   
   <link rel="icon" href="{{ asset('bundles/app/images/favicon.ico') }}"  type="image/x-icon"  />
@@ -18,6 +18,7 @@
 
   <!-- Bootstrap -->
   <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
 	{% stylesheets 'bundles/app/css/*' %}
 		<link rel="stylesheet" href="{{ asset_url }}" />
 	{% endstylesheets %}
@@ -36,130 +37,29 @@
 		            <span class="icon-bar"></span>
 		            <span class="icon-bar"></span>
 		          </button>
-		          <a class="navbar-brand" href="{{ path('homepage') }}">
-		          	  BGF:ESport
-		          </a>
 		        </div>
 		        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 		          <ul class="nav navbar-nav">
-		            <li class="dropdown">
-		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-		            		<img width="20px" src="{{ asset('bundles/app/images/icon_lol.png') }}"/>
-		            		League of Legends <span class="caret"></span>
-		            	</a>
-		            	<ul class="dropdown-menu">
-		            		<li>
-		            			<a href="{{ path('lol') }}" >
-		            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-		            				Equipes validées
-					    			<abbr title="Nombres d'équipes validées">
-			      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('lol') }}</span>
-			      				  	</abbr>
-		            			</a>
-		            		</li>
-		            		<li>
-			      			  <a href="{{ path('search_player', { 'game': 'lol' }) }}">
-						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						      		Rechercher joueurs 
-					          		<abbr title="Nombres de joueurs cherchant une équipe">
-					          			<span class="badge">{{searchUsersService.getSearchingUsersSystName('lol')}}</span>
-					          		</abbr>
-						      </a>
-						    </li>
-						    <li>
-						      <a href="{{ path('search_team',  { 'game': 'lol' }) }}">
-						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						      		Rechercher équipes
-					    			<abbr title="Nombres d'équipes non validées">
-			      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('lol') }}</span>
-			      				  	</abbr>
-						      </a>
-						    </li>
-						      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
-						      and (app.user.capitain != true) 
-						      and (app.user.team == null) 
-						      and (app.user.tournament == 'lol')
-						      and (app.user.tournament!=null) %}
-						      	<li>
-							        <a href="{{ path('team_new' )}}">
-								        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								        	Inscrire une équipe
-							        </a>
-							    </li>
-						      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'lol'))
-						       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
-						      {%elseif (countCandidatsService.getPayedTeams('lol')<16)%}
-						      	<li>
-							      	<a href="{{ path('fos_user_security_login' )}}">
-							      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							      			S'inscrire au tournoi
-							        </a>
-							    </li>
-						      {%endif%}
-		    			</ul>
-		            </li>
-		            <li>
-		            	<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-		            		<img width="20px" src="{{ asset('bundles/app/images/icon_csgo.png') }}"/>
-		            		Counter Strike : Global Offensive <span class="caret"></span>
-		            	</a>
-		            	<ul class="dropdown-menu">
-		            		<li>
-		            			<a href="{{ path('csgo') }}">
-		            				<span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-		            				Equipes validées
-					    			<abbr title="Nombres d'équipes validées">
-			      						<span class="badge">{{ searchUsersService.getSearchingTeamValidation('csgo') }}</span>
-			      				  	</abbr>
-		            			</a>
-		            		</li>
-		            		<li>
-			      			  <a href="{% block search_player %}{{ path('search_player', { 'game': 'csgo' }) }}{% endblock %}">
-						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						      		Rechercher joueurs 
-					          		<abbr title="Nombres de joueurs cherchant une équipe">
-						      			<span class="badge">{{searchUsersService.getSearchingUsersSystName('csgo')}}</span>
-						      		</abbr>
-						      </a>
-						    </li>
-						    <li>
-						      <a href="{% block search_team %}{{ path('search_team',  { 'game': 'csgo' }) }}{% endblock %}">
-						      	<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						      		Rechercher équipes
-					    			<abbr title="Nombres d'équipes non validées">
-			      						<span class="badge">{{ searchUsersService.getSearchingTeamSystName('csgo') }}</span>
-			      				  	</abbr>
-						      </a>
-						    </li>
-						      {% if (is_granted("IS_AUTHENTICATED_REMEMBERED") )
-						      and (app.user.capitain != true) 
-						      and (app.user.team == null) 
-						      and (app.user.tournament == 'csgo')
-						      and (app.user.tournament!=null) %}
-						      	<li>
-							        <a href="{{ path('team_new' )}}">
-								        	<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-								        	Inscrire une équipe
-							        </a>
-							    </li>
-						      {%elseif (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament != 'csgo'))
-						       or (is_granted("IS_AUTHENTICATED_REMEMBERED") and (app.user.tournament !=null)) %}
-						      {%elseif (countCandidatsService.getPayedTeams('lol')<16)%}
-						      	<li>
-							      	<a href="{{ path('fos_user_security_login' )}}">
-							      		<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
-							      			S'inscrire au tournoi
-							        </a>
-							    </li>
-						      {%endif%}
-						  </ul>
-		            </li>
-		            <li>
-		            	<a href="{{ path('faq') }}">
-		            		<span class="glyphicon glyphicon-question-sign" aria-hidden="true"></span>
-		            		FAQ
-		            	</a>
-		            </li>
+		          	<li class="dropdown">
+		          		<a href="https://www.facebook.com/BGFesport"  target="_blank">
+		          			<img height="32px" width="32px" src="{{ asset('bundles/app/images/facebook.png') }}" />
+		          		</a>
+		          	</li>
+		          	<li class="dropdown">
+		          		<a href="https://twitter.com/BGFesport"  target="_blank">
+		          			<img height="32px" width="32px" src="{{ asset('bundles/app/images/twitter.png') }}" />
+		          		</a>
+		          	</li>
+		          	<li class="dropdown">
+		          		<a href="https://www.instagram.com/bgf_es/"  target="_blank">
+		          			<img height="32px" width="32px" src="{{ asset('bundles/app/images/instagram.png') }}" />
+		          		</a>
+		          	</li>
+		          	<li class="dropdown">
+		          		<a href="https://www.youtube.com/channel/UCK89jXECqJ86Ag1DFbFP3EA"  target="_blank">
+		          			<img height="32px" width="32px" src="{{ asset('bundles/app/images/youtube.png') }}" />
+		          		</a>
+		          	</li>
 		            {#<li><a href="#">Animations</a></li>
 		            <li><a href="#">Editions précédentes</a></li>
 					 <li><a href="{{path('blog')}}">Blog</a></li> #}
@@ -276,34 +176,12 @@
 	</div>
     <div id="footer">
         <div class="row text-center">
-			<div class="col-lg-1 col-xs-3">
-			  	<a href="https://www.facebook.com/BGFesport"  target="_blank">
-		    		<img width="100%" src="{{ asset('bundles/app/images/fb.png') }}"/>
-		    	</a>
-			</div>
-			<div class="col-lg-1 col-xs-3">
-			  	<a href="https://twitter.com/BGFesport"  target="_blank">
-		    		<img width="100%" src="{{ asset('bundles/app/images/twitter.png') }}" />
-		    	</a>
-			</div>
-			<div class="col-lg-1 col-xs-3">
-			  	<a href="https://www.instagram.com/bgf_es/"  target="_blank">
-		    		<img width="100%" src="{{ asset('bundles/app/images/insta.png') }}"/>
-		    	</a>
-			</div>
-			<div class="col-lg-1 col-xs-3">
-			  	<a href="https://www.youtube.com/channel/UCK89jXECqJ86Ag1DFbFP3EA"  target="_blank">
-		    		<img width="100%" src="{{ asset('bundles/app/images/yt01.png') }}"/>
-		    	</a>
-			</div>
-			<div class="col-sm-4">
-			</div>
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-xs-6">
             	<a href="{{ path('mention_legale') }}">
             		Mentions légales
             	</a>
 			</div>
-			<div class="col-sm-2 col-xs-6">
+			<div class="col-xs-6">
     			2016 <a href="www.asso-b2g.com"   target="_blank">AB2G</a> | All Right Reserved
 			</div>
 	    </div>

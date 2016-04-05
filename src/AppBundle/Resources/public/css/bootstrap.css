@@ -755,8 +755,6 @@ pre code {
   }
 }
 .container-fluid {
-  padding-right: 15px;
-  padding-left: 15px;
   margin-right: auto;
   margin-left: auto;
 }
@@ -1469,7 +1467,7 @@ th {
 }
 .table-hover > tbody > tr:hover > td,
 .table-hover > tbody > tr:hover > th {
-  background-color: #2c3e50;
+  background-color: #808080;
 }
 table col[class*="col-"] {
   position: static;
@@ -1500,7 +1498,7 @@ table th[class*="col-"] {
 .table-hover > tbody > tr > th.active:hover,
 .table-hover > tbody > tr.active:hover > td,
 .table-hover > tbody > tr.active:hover > th {
-  background-color: #2c3e50;
+  background-color: #808080;
 }
 .table > thead > tr > td.success,
 .table > tbody > tr > td.success,
@@ -1514,13 +1512,13 @@ table th[class*="col-"] {
 .table > thead > tr.success > th,
 .table > tbody > tr.success > th,
 .table > tfoot > tr.success > th {
-  background-color: #2c3e50;
+  background-color: #808080;
 }
 .table-hover > tbody > tr > td.success:hover,
 .table-hover > tbody > tr > th.success:hover,
 .table-hover > tbody > tr.success:hover > td,
 .table-hover > tbody > tr.success:hover > th {
-  background-color: #2c3e50;
+  background-color: #808080;
 }
 .table > thead > tr > td.info,
 .table > tbody > tr > td.info,

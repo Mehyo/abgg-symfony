@@ -7,16 +7,11 @@ parameters:
     database_port: 3306
     database_name: bgfesport
     database_user: bgfesport
-    database_password: null #please set the correct password
+    database_password: gessThePassword
     secret: ThisTokenIsNotSoSecretChangeIt
-    
-    mailer_transport:  smtp    
-    mailer_auth_mode : login
-    mailer_host:       SSL0.OVH.NET    
-    mailer_user:      contact@asso-b2g.com
-    mailer_password:  PignoufNeverDie
-    mailer_port :     587
+    mailer_transport: smtp
     mailer_auth_mode: login
-
-
-    mailchim_api_key: ThisIsNotTheAPIkey
+    mailer_host: SSL0.OVH.NET
+    mailer_user: contact@asso-b2g.com
+    mailer_password: gessThePassword
+    mailer_port: 587

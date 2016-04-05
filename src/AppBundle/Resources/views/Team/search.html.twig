@@ -61,14 +61,23 @@
 			    {%endif%}
 	    	</div>
 	    	
-	    	<div class="col-md-3 col-xs-2">
+	    	<div class="col-md-2 col-xs-1">
 	    	</div>
 	    	
-	    	<div class="col-md-2 col-xs-4" id="search_form">
+	    	<div class="col-md-4 col-xs-4" id="search_form">
+	    		<div class="col-md-6">
 			    	{{ form_label(form.full) }}
 			    	{{ form_errors(form.full) }}
 			    	{{ form_widget(form.full) }}
+			    </div>
+	    		<div class="col-md-6">
+			    	{{ form_label(form.name) }}
+			    	{{ form_errors(form.name) }}
+			    	{{ form_widget(form.name) }}
+			    </div>
+	    		<div class="col-md-12">
 					{{ form_end(form) }}
+			    </div>
 		    </div>
 			
 	    	<div class="col-md-5 col-xs-1">
@@ -76,7 +85,7 @@
 		</div>
 			    
 		{%if entities == null%}
-			<br><center><h3>Aucune équipe n'a encore été créée</h3></center>
+			<br><center><h3>Aucune equipe n'est disponible</h3></center>
 		{%else%}
 		
 		<center>
@@ -98,13 +107,21 @@
 				<table  class="table table-hover">
 				  <thead>
 				    <tr>
+				        <th></th>
 				        <th>Equipe</th>
+				        <th></th>
 				        <th>Capitaine d'équipe</th>
+				        <th></th>
 						<th>Joueur 2</th>
+				        <th></th>
 						<th>Joueur 3</th>
+				        <th></th>
 						<th>Joueur 4</th>
+				        <th></th>
 						<th>Joueur 5</th>
+				        <th></th>
 						<th>Joueur 6</th>
+				        <th></th>
 						<th>Joueur 7</th>
 			            {%if is_granted("IS_AUTHENTICATED_REMEMBERED") 
 			            and app.user.capitain==null
@@ -125,19 +142,27 @@
 		                	{%if entity.image%}
 		                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.image.name) }}" />
 		                	{%endif%}
+		                </td>
+		                <td>
 					        <a class="btn btn-link" href="{{ path('team_show_all', {'id':entity.id} ) }}">
-					      		{{ entity.name }}
+					      		<h4>
+					      			{{ entity.name }}
+					      		</h4>
 					        </a>
 				        </td>
 				      <td>
 		            	{%if entity.captain.image%}
 		            		<img height="50px" width="50px" src="{{ asset('uploads/images/'~entity.captain.image.name) }}" />
 		            	{%endif%}
+		              </td>
+		              <td>
 				      	<a class="btn btn-link" href="{{ path('user_show', {'id':entity.captain.id} ) }}">
-				      		{{ entity.captain }}
+				      		<h4>
+				      			{{ entity.captain }}
+				      		</h4>
 				      	</a>
 				      	{%if entity.captain.tournament.systName == 'lol' %}
-				      		- {{entity.captain.role.name}}
+				      		<br>{{entity.captain.role.name}}
 				      	{%endif%}
 				      </td>
 				      {%if entity.player%}
@@ -146,16 +171,20 @@
 			                	{%if player.user.image%}
 			                		<img height="50px" width="50px" src="{{ asset('uploads/images/'~player.user.image.name) }}" />
 			                	{%endif%}
+			                </td>
+			                <td>
 				      			<a class="btn btn-link" href="{{ path('user_show', {'id':player.user.id} ) }}">
-				      				{{player.user.experience.username}}
+				      				<h4>
+				      					{{player.user.experience.username}}
+				      				</h4>
 				      			</a>
 						      	{%if player.user.tournament.systName == 'lol' %}
-						      		- {{player.role.name}}
+						      		<br>{{player.role.name}}
 						      	{%endif%}
 						      	<br>
 				      		</td>
 				      	{%endfor%}
-				      	{%for i in (entity.player|length)..5%}
+				      	{%for i in (entity.player|length)..10%}
 				      		<td></td>
 				      	{%endfor%}
 				      {%endif%}

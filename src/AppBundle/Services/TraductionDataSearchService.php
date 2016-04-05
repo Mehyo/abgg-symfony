@@ -163,7 +163,7 @@ class TraductionDataSearchService
 		    with p.experience=e.id 
 		    inner join AppBundle:Game g
 		    with p.tournament=g.id '.$innerJoin.' 
-		    where g.systName=\''.$game.'\' '.$mainRole.$joueurs
+		    where g.systName=\''.$game.'\' '.$joueurs.$mainRole
 		);
 		$users = $query->getResult();
 		

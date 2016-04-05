@@ -147,6 +147,14 @@ class SearchFormService
             	)
             ),
         1 => array(
+            'name' => 'name', 
+            'type' =>'text',
+            'array' => $array = array(
+            	'label'    => 'Chercher par nom d\'une équipe',
+			    'required' => false,
+			    )
+            ),
+        2 => array(
             'name' => 'save', 
             'type' =>'submit',
             'array' => $array = array(

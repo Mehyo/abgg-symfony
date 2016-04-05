@@ -144,8 +144,78 @@ class TeamController extends Controller
      {
      	$data=$request->request->all();
 		$forms =$data['form'];
+     	
+     	$currentUrl = $request->getUri();
+		$exploded=explode("/",$currentUrl);
+		$length =count($exploded);
 		
-		if(array_key_exists("full",$forms))
+		if(array_key_exists('name', $forms) && $forms['name']!='')
+		{
+			$name = $forms['name'];
+			
+	        $em = $this->getDoctrine()->getManager();
+	        $query = $em->createQuery(
+			    'SELECT t
+			    FROM AppBundle:Team t
+			    WHERE t.name =\''.$name.'\''
+			);
+			$teams = $query->getResult();
+			
+	        $query = $em->createQuery(
+			    'SELECT p
+			    FROM AppBundle:Game p
+			    WHERE p.systName = :name'
+			)->setParameter('name', $request->attributes->get('game'));
+			$gaming = $query->getResult();
+			$gameId = $gaming[0]->getId();
+			
+			if (($this->getUser()) != null)
+			{
+				$userId = $this->getUser()->getId();
+		        $query = $em->createQuery(
+				    'SELECT p
+				    FROM AppBundle:Application p
+				    WHERE p.user = :id
+				    and p.origin = \'player\'
+				    and p.blocked is null'
+				)->setParameter('id', $userId);
+				$userApp = $query->getResult();
+				
+				$i=0;
+				if ($userApp!=null)
+				{
+					foreach ($userApp as $user)
+					{
+						$userAppTeams[$i] = $user->getTeam();
+						$i++;
+					}
+				}
+				else
+				{
+					$userAppTeams=0;
+				}
+			}
+			else {
+				$userAppTeams=0;
+			}
+			
+			$formArray = $this->get('searchFormService')->createFormTeam();
+			
+		    $formBuilder = $this->createFormBuilder($formArray);
+		
+		    foreach($formArray as $field) {
+		        $formBuilder->add($field['name'], $field['type'],$field['array']);
+		    }        
+		
+		    $form = $formBuilder->getForm();
+		
+			return $this->render('AppBundle:Team:search.html.twig', array(
+				'entities' => $teams ,
+            	'form'     => $form->createView(),
+            	'appTeam'  => $userAppTeams,
+			));
+		}
+		elseif(array_key_exists("full",$forms))
 		{
 			$choiceTeams = $forms['full'];
 			
@@ -259,7 +329,7 @@ class TeamController extends Controller
 			}
 		    $em->flush();
 			
-			return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
+			return $this->redirect($this->generateUrl('search_team', array('game'=> $exploded[$length-1] )));
 		}
 		elseif(array_key_exists('text', $forms))
 		{
@@ -292,9 +362,11 @@ class TeamController extends Controller
 	        $em->persist($entity);
 		    $em->flush();
 			
-			return $this->redirect($this->generateUrl('search_team', array('game'=> $this->getUser()->getTournament()->getSystName() )));
+			return $this->redirect($this->generateUrl('search_team', array('game'=> $exploded[$length-1] )));
 		}
-     }
+		
+		return $this->redirect($this->generateUrl('search_team_get',array('game'=>$exploded[$length-1])));
+	}
 	
 	
     /**
@@ -893,6 +965,7 @@ class TeamController extends Controller
 		}
 		
         $em->flush();
+		
 		return $this->redirect($this->generateUrl('team_show', array('id'=> ($this->getUser()->getTeam()->getId()) )));
 	}
 	
